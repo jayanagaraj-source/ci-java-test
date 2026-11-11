@@ -169,7 +169,11 @@ jobs:
         # compile, test, build or install task runs. Gradle still evaluates
         # build.gradle.kts (which is code), so the scan secrets are blanked for
         # this step in case the build script comes from an untrusted PR.
-        if: contains(fromJSON('["all","sca"]'), inputs.scan_type || 'all')
+        #
+        # Runs only when gradle.lockfile is missing from the checkout
+        # (hashFiles() returns '' for no match); a committed lockfile is used
+        # as-is and this step shows as skipped.
+        if: contains(fromJSON('["all","sca"]'), inputs.scan_type || 'all') && hashFiles('gradle.lockfile') == ''
         env:
           TIGERGATE_API_KEY: ""
           GITHUB_TOKEN: ""
@@ -181,10 +185,12 @@ jobs:
             echo "No build.gradle(.kts) at repo root; skipping Java toolchain setup."
             exit 0
           fi
+          # Safety net; the step-level `if:` already skips this case.
           if [ -f gradle.lockfile ]; then
             echo "Found gradle.lockfile in the checkout; using it as-is."
             exit 0
           fi
+          echo "gradle.lockfile is missing; generating it."
 
           if ! command -v java >/dev/null 2>&1; then
             if command -v apt-get >/dev/null 2>&1; then

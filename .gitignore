@@ -3,6 +3,11 @@ build/
 .gradle/
 out/
 
+# Gradle dependency lock state is generated, never committed or pushed.
+# (Regenerate with: ./gradlew dependencies --write-locks)
+gradle.lockfile
+*.lockfile
+
 # Keep the Gradle wrapper (gradlew, gradlew.bat, gradle/wrapper/) tracked.
 !gradle/wrapper/gradle-wrapper.jar
 
