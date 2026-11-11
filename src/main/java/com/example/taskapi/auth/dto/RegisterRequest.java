@@ -1,0 +1,16 @@
+package com.example.taskapi.auth.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+/** BCrypt only uses the first 72 bytes of a password, hence the upper bound. */
+public record RegisterRequest(
+        @NotBlank @Email @Size(max = 254) String email,
+        @NotBlank @Size(min = 12, max = 72) String password) {
+
+    @Override
+    public String toString() {
+        return "RegisterRequest[email=" + email + ", password=<redacted>]";
+    }
+}

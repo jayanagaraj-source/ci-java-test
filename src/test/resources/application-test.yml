@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test-${random.uuid};DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+
+logging:
+  structured:
+    format:
+      console: ""
+  level:
+    root: WARN
+
+app:
+  jwt:
+    secret: test-secret-that-is-definitely-longer-than-32-chars
+  rate-limit:
+    auth-requests: 1000
+  security:
+    bcrypt-strength: 4
+  cors:
+    allowed-origins: https://app.example.test

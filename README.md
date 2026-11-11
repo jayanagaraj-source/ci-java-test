@@ -92,4 +92,3 @@ generated lockfile is never committed or pushed back.
 
 It needs the `TIGERGATE_API_KEY` repository secret. These repository variables are optional:
 `TIGERGATE_API_URL`, `TIGERGATE_CLI_IMAGE` and `TIGERGATE_CLI_TAG`.
-# ci-java-test

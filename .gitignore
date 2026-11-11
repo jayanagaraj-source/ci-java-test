@@ -1,0 +1,39 @@
+# Gradle build output and local caches
+build/
+.gradle/
+out/
+
+# Gradle dependency lock state is generated, never committed or pushed.
+# (Regenerate with: ./gradlew dependencies --write-locks)
+gradle.lockfile
+*.lockfile
+
+# Keep the Gradle wrapper (gradlew, gradlew.bat, gradle/wrapper/) tracked.
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local environment / secrets
+.env
+.env.*
+!.env.example
+
+# IDE and OS files
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+*.swp
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Local H2 file databases
+data/
+*.mv.db
+*.trace.db

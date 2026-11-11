@@ -1,0 +1,87 @@
+# All runtime configuration comes from environment variables (see .env.example).
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  error:
+    whitelabel:
+      enabled: false
+  tomcat:
+    max-http-form-post-size: ${MAX_REQUEST_BODY_SIZE:64KB}
+    max-swallow-size: ${MAX_REQUEST_BODY_SIZE:64KB}
+
+spring:
+  application:
+    name: task-api
+  main:
+    banner-mode: off
+  lifecycle:
+    timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:20s}
+  datasource:
+    url: ${DATABASE_URL:jdbc:h2:mem:taskdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        order_by:
+          default_null_ordering: last
+  flyway:
+    enabled: true
+  h2:
+    console:
+      enabled: false
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+      fail-on-null-for-primitives: true
+      fail-on-trailing-tokens: true
+    serialization:
+      write-dates-as-timestamps: false
+  mvc:
+    problemdetails:
+      enabled: false   # handled by GlobalExceptionHandler
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+logging:
+  structured:
+    format:
+      console: ${LOG_FORMAT:ecs}
+  level:
+    root: ${LOG_LEVEL:INFO}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:}
+    issuer: ${JWT_ISSUER:task-api}
+    ttl: ${JWT_TTL:1h}
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+  rate-limit:
+    auth-requests: ${RATE_LIMIT_AUTH_REQUESTS:10}
+    auth-window: ${RATE_LIMIT_AUTH_WINDOW:1m}
+  http:
+    max-request-body-size: ${MAX_REQUEST_BODY_SIZE:64KB}
+  sse:
+    timeout: ${SSE_TIMEOUT:30m}
+    heartbeat: ${SSE_HEARTBEAT:25s}
+    max-connections-per-user: ${SSE_MAX_CONNECTIONS_PER_USER:5}
+  security:
+    bcrypt-strength: ${BCRYPT_STRENGTH:12}
